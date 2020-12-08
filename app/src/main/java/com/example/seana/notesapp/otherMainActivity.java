@@ -26,7 +26,9 @@ public class otherMainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_other_main);
 
+
         editText = (EditText) findViewById(R.id.editText);
+
 
 
         Intent intent = getIntent();
@@ -72,8 +74,6 @@ public class otherMainActivity extends AppCompatActivity {
                     Intent intent = getIntent();
                     // problem is that you are overriding to last array each time
                     noteId = intent.getIntExtra("noteId",-1);
-                } else {
-                    Log.i("Xi","Zobb");
                 }
 
 

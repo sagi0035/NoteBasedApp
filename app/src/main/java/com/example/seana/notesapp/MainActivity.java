@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void serializer() {
         try {
+            // so we will try initialise the arraylist
             toDoList = (ArrayList<String>) ObjectSerializer.deserialize(sharedPreferences.getString("notesAgain15",ObjectSerializer.serialize(new ArrayList<String>())));
         } catch (Exception e) {
             e.printStackTrace();
@@ -49,18 +50,20 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // the shared preferences will exist so as to keep the notes permanent
         sharedPreferences = getApplicationContext().getSharedPreferences("com.example.seana.notesapp", Context.MODE_PRIVATE);
+        // the listview will crate a list of items
         listView = (ListView) findViewById(R.id.listView);
 
 
         serializer();
 
+        // now we will create and set the adapter to follow the items of the array list
 
         arrayAdapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1,toDoList);
 
         listView.setAdapter(arrayAdapter);
 
-        //toDoList.add("Things to do....");
 
 
 
@@ -80,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+        // now for a long click we will set the items to get deleted
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -91,7 +95,9 @@ public class MainActivity extends AppCompatActivity {
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
+                                // so we remove the item from the array lit
                                 toDoList.remove(itemToDelete);
+                                // and notify hte adapterv of the change so that it is reflected in the listview
                                 arrayAdapter.notifyDataSetChanged();
 
                                 SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("com.example.seana.notesapp", Context.MODE_PRIVATE);
@@ -116,6 +122,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        // so this creates a pop-uo when the settings image is pressed
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.main_menu,menu);
         return super.onCreateOptionsMenu(menu);
@@ -125,6 +132,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
+            // and in the case were the image is pressed we create a new intent for adding a new note
             case R.id.addANewNote:
                 Intent intent = new Intent(getApplicationContext(),otherMainActivity.class);
                 intent.putExtra("myIndex",toDoList.size());
